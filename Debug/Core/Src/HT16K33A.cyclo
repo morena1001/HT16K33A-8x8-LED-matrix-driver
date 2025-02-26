@@ -1,0 +1,10 @@
+../Core/Src/HT16K33A.c:15:9:HT16K33A_Init	1
+../Core/Src/HT16K33A.c:23:19:HT16K33A_SetRow	1
+../Core/Src/HT16K33A.c:27:19:HT16K33A_SetColumn	1
+../Core/Src/HT16K33A.c:31:19:HT16K33A_SetSingle	1
+../Core/Src/HT16K33A.c:35:19:HT16K33A_SetAll	1
+../Core/Src/HT16K33A.c:44:19:HT16K33A_Byte_WriteCommand	1
+../Core/Src/HT16K33A.c:48:19:HT16K33A_Byte_WriteData	1
+../Core/Src/HT16K33A.c:52:19:HT16K33A_Page_WriteData	1
+../Core/Src/HT16K33A.c:56:19:HT16K33A_Byte_ReadData	1
+../Core/Src/HT16K33A.c:59:19:HT16K33A_Page_ReadData	1
