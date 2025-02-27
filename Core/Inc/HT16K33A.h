@@ -28,9 +28,9 @@
  */
 
 #define HT16K33A_COMMAND_SYSTEM_SETUP(S) 							(0x20 | (S != 0))
-#define HT16K33A_COMMAND_ROWINT_SETUP 0xA0
+#define HT16K33A_COMMAND_ROWINT_SETUP 								 0xA0
 #define HT16K33A_COMMAND_DISPLAY_SETUP(B1, B0, D) 					(0x80 | ((B1 != 0) << 2) | ((B0 != 0) << 1) | (D != 0))
-#define HT16K33A_COMMAND_DISPLAY_SETUP_S(B, D) 						0x80 | ((B & 0x3) << 1) | (D != 0))
+#define HT16K33A_COMMAND_DISPLAY_SETUP_S(B, D) 						(0x80 | ((B & 0x3) << 1) | (D != 0))
 #define HT16K33A_COMMAND_DISPLAY_DIMMING_SETUP(P3, P2, P1, P0)		(0xE0 | ((P3 != 0) << 3) | ((P2 != 0) << 2) | ((P1 != 0) << 1) | (P0 != 0))
 
 #define HT16K33A_COMMAND_ROW_ADDR_POINTER(An) 						(An)
@@ -71,41 +71,26 @@ typedef struct {
  * INITIALIZATION
  */
 
-// FOR INIT FUNCTION CLEAR ALL RAM DATA BEFORE LED DISPLAY COMMAND IS ACTIVATED
-uint8_t HT16K33A_Init (HT16K33A_t *device, I2C_HandleTypeDef *i2c_handle, uint8_t dev_addr);
+HAL_StatusTypeDef HT16K33A_Init (HT16K33A_t *device, I2C_HandleTypeDef *i2c_handle, uint8_t dev_addr);
 
 /*
  * LED FUNCTIONS
  */
 
-HAL_StatusTypeDef HT16K33A_SetRow (HT16K33A_t *device, uint8_t row);
-HAL_StatusTypeDef HT16K33A_SetColumn (HT16K33A_t *device, uint8_t col);
-HAL_StatusTypeDef HT16K33A_SetSingle (HT16K33A_t *device, uint8_t row, uint8_t col);
+HAL_StatusTypeDef HT16K33A_SetRow (HT16K33A_t *device, uint8_t row, uint8_t map);
+HAL_StatusTypeDef HT16K33A_SetColumn (HT16K33A_t *device, uint8_t col, uint8_t map);
+HAL_StatusTypeDef HT16K33A_SetSingle (HT16K33A_t *device, uint8_t row, uint8_t col, uint8_t value);
 HAL_StatusTypeDef HT16K33A_SetAll (HT16K33A_t *device, uint8_t *data);
-
-
-// I2C display data transfer format
-// D7 = ROW7
-// D6 = ROW6
-// D5 = ROW5
-// D4 = ROW4
-// D3 = ROW3
-// D2 = ROW2
-// D1 = ROW1
-// D0 = ROW0
-
-
 
 /*
  * LOW LEVEL FUNCTIONS
  */
-// FOR WRITE USE HAL_I2C_Master_Transmit AND FOR READ WRITE, CHECK IF THE COMMAND IS WRITABLE OR READABLE
 
 HAL_StatusTypeDef HT16K33A_Byte_WriteCommand (HT16K33A_t* device, uint8_t command);
-HAL_StatusTypeDef HT16K33A_Byte_WriteData (HT16K33A_t* device, uint8_t reg, uint8_t* data);
-HAL_StatusTypeDef HT16K33A_Page_WriteData (HT16K33A_t* device, uint8_t reg, uint8_t* data);
+HAL_StatusTypeDef HT16K33A_Byte_WriteData (HT16K33A_t* device, uint8_t command, uint8_t* data);
+HAL_StatusTypeDef HT16K33A_Page_WriteData (HT16K33A_t* device, uint8_t command, uint8_t* data, uint8_t size);
 
-HAL_StatusTypeDef HT16K33A_Byte_ReadData (HT16K33A_t* device, uint8_t reg, uint8_t* data);
-HAL_StatusTypeDef HT16K33A_Page_ReadData (HT16K33A_t* device, uint8_t reg, uint8_t* data);
+HAL_StatusTypeDef HT16K33A_Byte_ReadData (HT16K33A_t* device, uint8_t command, uint8_t* data);
+HAL_StatusTypeDef HT16K33A_Page_ReadData (HT16K33A_t* device, uint8_t command, uint8_t* data, uint8_t size);
 
 #endif /* INC_HT16K33A_H_ */

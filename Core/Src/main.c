@@ -21,6 +21,8 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#include <stdio.h>
+
 #include "HT16K33A.h"
 /* USER CODE END Includes */
 
@@ -47,6 +49,8 @@ UART_HandleTypeDef huart2;
 /* USER CODE BEGIN PV */
 HT16K33A_t dev;
 uint8_t dev_addr = HT16K33A_ADDR_1;
+
+char message[15];
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -96,6 +100,24 @@ int main(void)
   MX_USART2_UART_Init();
   /* USER CODE BEGIN 2 */
   HT16K33A_Init(&dev, &hi2c1, dev_addr);
+
+  uint8_t data[8] = {
+		  0b00000000,
+		  0b01100110,
+		  0b10011001,
+		  0b10000001,
+		  0b01000010,
+		  0b00100100,
+		  0b00011000,
+		  0b00000000
+  };
+  HT16K33A_SetAll(&dev, data);
+
+//  HT16K33A_SetColumn(&dev, 0x2, 0b10011001);
+//  HAL_StatusTypeDef status = HT16K33A_SetColumn(&dev, 0x2, 0b10011001);
+//  HAL_StatusTypeDef status = HT16K33A_SetSingle(&dev, 0, 0, 1);
+//  sprintf (message, "%s\r\n", (status == HAL_OK ? "OK" : (status == HAL_ERROR ? "ERROR" : (status == HAL_BUSY ? "BUSY" : (status == HAL_TIMEOUT ? "TIMEOUT" : "NOTHING")))));
+//  HAL_UART_Transmit (&huart2, (uint8_t *) message, 15, HAL_MAX_DELAY);
   /* USER CODE END 2 */
 
   /* Infinite loop */
